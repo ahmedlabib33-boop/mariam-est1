@@ -1,65 +1,84 @@
 # Mariam's EST1 Lessons
 
-Static single-page study site for EST1 prep (English + Math), built as
-**Rule → Example → Practice** with instant-feedback multiple-choice questions
-and per-lesson score breakdown.
+A study site for EST1 prep (English + Math), taught as **Rule → Example → Practice**.
+64 lessons, 256 practice questions, across 11 sections.
+
+Live: https://est-mariam.vercel.app
+
+## How it works for the student
+
+- **Progress saves itself.** Answers, position and settings live in `localStorage`,
+  so closing the tab and coming back later resumes where she left off.
+- **Learn mode** (default) — the rule and example are shown, and each answer is
+  marked right or wrong the moment it is picked, with the correct answer named.
+- **Test mode** — the rule and example start hidden behind a reveal button, and
+  nothing is marked until *Check answers*, so a lesson can be used as a mini exam.
+- **One lesson at a time**, with a step bar showing which lessons in the section
+  are untouched, started, or fully correct.
+- **Review list** — every question answered wrongly collects into *Practice again*.
+  Answering it correctly clears it. Opening the list never erases her record.
+- **Progress rings** per section, plus an overall bar for the current subject.
+- **Keyboard**: `1`–`4` answer the current question, `←` `→` move between lessons,
+  `Esc` returns to the section list.
+- **Light and dark**, following the system setting until the moon/sun button is used.
+- Honours `prefers-reduced-motion`, and every control is keyboard reachable with a
+  visible focus ring.
 
 ## Structure
 
 ```
-index.html     the whole app (HTML + CSS + JS, no build step)
-vercel.json    static hosting config: clean URLs, security headers, cache policy
+index.html        page shell only — markup, meta, font + asset links
+src/data.js       all lesson content (englishSections, mathSections)
+src/app.js        state, persistence, views, keyboard
+src/styles.css    design tokens, light/dark themes, layout, animation
+avatar.webp       header portrait, favicon and social preview image
+vercel.json       static hosting: clean URLs, security headers, cache policy
 ```
 
-No dependencies, no build, no server code. Vercel serves `index.html` directly.
+No build step and no dependencies — Vercel serves these files as they are.
 
 ## Run locally
 
 ```bash
-npx serve .
+python -m http.server 4173
 ```
 
-Or just open `index.html` in a browser.
+Then open http://localhost:4173. (Open `index.html` directly and the browser will
+block `src/*` as cross-origin, so use a server.)
 
-## Deploy to Vercel
-
-First time (from this folder):
+## Deploy
 
 ```bash
-npx vercel
+vercel --prod
 ```
 
-Accept the defaults — when asked about framework, choose **Other**; leave
-build command and output directory empty.
+Pushing to `main` on GitHub also deploys automatically, because the repo is
+connected to a Vercel project.
 
-Then to publish to production:
+## Editing the lessons
 
-```bash
-npx vercel --prod
-```
-
-### Or deploy from Git
-
-Push this folder to a GitHub/GitLab/Bitbucket repo, then in the Vercel
-dashboard: **Add New → Project → Import** the repo. Framework Preset
-**Other**, no build command, output directory `.` (root). Every push to the
-default branch then redeploys production automatically.
-
-## Editing content
-
-All lessons live in two arrays near the top of the `<script>` block in
-`index.html`:
-
-- `englishSections` — grouped by section name (Grammar, etc.)
-- `mathSections`
-
-Each lesson is:
+Everything a lesson needs is in `src/data.js`. A section looks like:
 
 ```js
-{ title: "...", rule: "...", example: "...",
-  mcqs: [ { q: "...", options: ["a","b","c","d"], correct: 0 } ] }
+{
+  name: "Grammar",
+  lessons: [
+    { title: "1) Subject–Verb Agreement",
+      rule:    "...",
+      example: "...",
+      mcqs: [
+        { q: "Neither of the boys ___ here.",
+          options: ["is","are","were","have"],
+          correct: 0 }
+      ] }
+  ]
+}
 ```
 
-`correct` is the zero-based index into `options`. Add a lesson or a question by
-adding an object to the array — the tabs, progress bar, scoring and breakdown
-all derive from these arrays, so nothing else needs changing.
+`correct` is the zero-based index into `options`. Add a question by adding an
+object to `mcqs`; add a lesson or a whole section the same way. Section cards,
+step bars, progress rings, scoring and the review list all derive from this file,
+so nothing else needs touching.
+
+Lesson text is inserted with `textContent`, so characters like `<`, `>` and `&`
+are safe to type literally — no HTML escaping needed.
