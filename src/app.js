@@ -279,8 +279,12 @@ function questionEl(si, li, qi, mcq, opts = {}){
   function paint(){
     const a = retrying ? null : S.answers[k];
     const reveal = a && (S.mode === 'learn' || opts.forceReveal || wrap.dataset.checked === '1');
+    /* a teacher can show the answer even on a question nobody has attempted */
+    const taught = wrap.dataset.showAnswer === '1';
+
     [...group.children].forEach((b, oi) => {
       b.className = 'opt';
+      if(taught && oi === mcq.correct) b.classList.add('right');
       if(!a) return;
       if(reveal){
         if(oi === mcq.correct) b.classList.add('right');
@@ -292,6 +296,12 @@ function questionEl(si, li, qi, mcq, opts = {}){
     });
 
     verdict.innerHTML = '';
+    if(taught && !reveal){
+      const v = el('div', 'verdict ok');
+      v.append(el('b', null, '\u{1F4A1} The answer is '));
+      v.append(el('b', null, mcq.options[mcq.correct]));
+      verdict.append(v);
+    }
     if(a && reveal){
       const good = a.p === mcq.correct;
       const v = el('div', 'verdict ' + (good ? 'ok' : 'no'));

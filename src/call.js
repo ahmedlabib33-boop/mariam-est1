@@ -223,12 +223,18 @@ async function startCall(room, name){
   jitsi.addListener('readyToClose', endCall);
   jitsi.addListener('videoConferenceLeft', endCall);
 
+  /* teaching tools come alive once we are actually in the room */
+  jitsi.addListener('videoConferenceJoined', () => {
+    if(window.Teach) Teach.attach(jitsi);
+  });
+
   document.body.classList.add('in-call');
   setCallBtnState(true);
   toast('In a call — lessons still work while you talk');
 }
 
 function endCall(){
+  if(window.Teach) Teach.detach();
   if(jitsi){ try{ jitsi.dispose(); }catch(e){} jitsi = null; }
   callRoom = null;
   document.body.classList.remove('in-call');
@@ -237,6 +243,7 @@ function endCall(){
 }
 
 function closePanel(){
+  if(window.Teach) Teach.detach();
   if(jitsi){ try{ jitsi.dispose(); }catch(e){} jitsi = null; }
   document.body.classList.remove('in-call');
   setCallBtnState(false);

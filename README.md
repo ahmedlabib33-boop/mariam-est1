@@ -50,6 +50,34 @@ To avoid the sign-in entirely you would need to self-host Jitsi, or move to a
 service like Daily.co — which needs an account, an API key and therefore a small
 server-side function to keep the key out of the browser.
 
+### Teaching tools
+
+While a call is running, a toolbar appears at the bottom-left:
+
+| Tool | What it does |
+|---|---|
+| 🎓 **Take the lead** | Everyone follows your subject, section, lesson and scrolling |
+| 🔦 **Laser** | Your pointer shows as a glowing dot on their screen |
+| ✏️ **Pen** | Draw over the lesson in five colours — strokes appear on their screen |
+| 🎯 **Spotlight** | Click anything to flash it on every screen |
+| 🧹 **Clear** | Wipe the drawing everywhere |
+| 💡 **Show answer** | Reveal a question's answer to everyone at once |
+
+Whoever is being led sees a *"Following Ahmed"* banner with a **Stop** button, and
+scrolling yourself pauses follow-scroll for 3 seconds so you are never fought for
+control. Picking any tool turns on leading automatically.
+
+**Show answer** works even on a question nobody has attempted yet — it marks the
+correct option and says "💡 The answer is …" without recording anything against
+the student's score, and she can still answer it herself afterwards.
+
+All of this travels over Jitsi's own participant data channel
+(`sendEndpointTextMessage`), so there is still no server of ours involved.
+Drawing and pointer coordinates are normalised against the lesson panel's **width**
+for both axes, so a shape keeps its proportions on a different screen size.
+Incoming messages are treated as untrusted: malformed payloads are ignored, and
+a reveal key is matched against real elements rather than injected into a selector.
+
 ## Structure
 
 ```
