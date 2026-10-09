@@ -24,12 +24,39 @@ Live: https://est-mariam.vercel.app
 - Honours `prefers-reduced-motion`, and every control is keyboard reachable with a
   visible focus ring.
 
+## Study together (live call)
+
+The camera button in the header starts a video/voice call in a floating panel, so
+lessons stay fully usable while you talk — you can change lesson, answer questions
+and switch sections without dropping the call. The panel resizes, minimises to a
+bar, and on phones docks to the bottom of the screen.
+
+Starting a call creates a private room and an invite link
+(`…/?call=mariam-est1-xxxxxxxxxxxxxx`). Opening that link goes straight to a
+join form.
+
+It runs on the free public **Jitsi Meet** service via its embed API — no server,
+no account and no API key on our side. Two things to know:
+
+- **Whoever starts the room is asked by Jitsi to sign in once** with Google,
+  GitHub or Facebook. This is Jitsi's rule for their public server, not ours.
+  Whoever joins afterwards needs no account at all.
+- The room name is the only thing guarding the call, so it is generated with
+  `crypto.getRandomValues` (14 random characters) rather than something
+  guessable. For extra safety the moderator can set a password from Jitsi's own
+  security menu once inside.
+
+To avoid the sign-in entirely you would need to self-host Jitsi, or move to a
+service like Daily.co — which needs an account, an API key and therefore a small
+server-side function to keep the key out of the browser.
+
 ## Structure
 
 ```
 index.html        page shell only — markup, meta, font + asset links
 src/data.js       all lesson content (englishSections, mathSections)
 src/app.js        state, persistence, views, keyboard
+src/call.js       the "study together" video call panel (Jitsi embed)
 src/styles.css    design tokens, light/dark themes, layout, animation
 avatar.webp       header portrait, favicon and social preview image
 vercel.json       static hosting: clean URLs, security headers, cache policy

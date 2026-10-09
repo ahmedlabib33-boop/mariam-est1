@@ -329,6 +329,71 @@ body:not(.dark) .verdict.no{ color:#9b1c1c; }
 .decor span{ position:absolute; bottom:-90px; opacity:0; animation:drift linear infinite;
              filter:drop-shadow(0 4px 10px rgba(0,0,0,.26)); will-change:transform; }
 
+/* ============================================================
+   STUDY-TOGETHER CALL PANEL
+   ============================================================ */
+#callBtn.live{ background:var(--bad); border-color:var(--bad); color:#fff; animation:livePulse 1.8s ease-in-out infinite; }
+@keyframes livePulse{ 0%,100%{box-shadow:0 0 0 0 rgba(217,59,59,.5);} 50%{box-shadow:0 0 0 9px rgba(217,59,59,0);} }
+
+.call-panel{
+  position:fixed; right:18px; bottom:18px; z-index:60;
+  width:380px; height:420px; display:flex; flex-direction:column;
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:16px; overflow:hidden; box-shadow:var(--shadow);
+  animation:fadeUp .4s cubic-bezier(.22,1,.36,1) both;
+  transition:width .3s ease, height .3s ease;
+}
+.call-panel.big{ width:min(760px, calc(100vw - 36px)); height:min(560px, calc(100vh - 36px)); }
+.call-panel.min{ height:46px; }
+.call-panel.min .call-body{ display:none; }
+
+.call-head{
+  display:flex; align-items:center; gap:9px; padding:0 8px 0 14px; height:46px;
+  background:var(--surface-2); border-bottom:1px solid var(--border); flex-shrink:0;
+}
+.call-dot{ width:8px; height:8px; border-radius:50%; background:var(--bad); flex-shrink:0; }
+body.in-call .call-dot{ animation:livePulse 1.8s ease-in-out infinite; }
+.call-title{ font-weight:700; font-size:.9em; flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.call-head-actions{ display:flex; gap:4px; }
+.call-icon{
+  width:28px; height:28px; border-radius:8px; border:1px solid transparent;
+  background:transparent; color:var(--text-dim); cursor:pointer; font-size:.95em;
+  display:grid; place-items:center; font-family:inherit; transition:all .18s ease;
+}
+.call-icon:hover{ background:var(--surface-3); color:var(--text); }
+.call-icon.danger:hover{ background:var(--bad-bg); color:var(--bad); }
+
+.call-body{ flex:1; min-height:0; position:relative; background:#0d0f1c; }
+.call-body iframe{ width:100%; height:100%; border:0; display:block; }
+.call-loading{ position:absolute; inset:0; display:grid; place-items:center; color:#9aa0c0; font-size:.9em; }
+
+.call-setup{ padding:18px; background:var(--surface); height:100%; overflow-y:auto; }
+.call-setup-title{ font-family:'Playfair Display',serif; font-size:1.12em; font-weight:700; margin-bottom:5px; }
+.call-setup-note{ font-size:.85em; color:var(--text-dim); line-height:1.5; margin-bottom:15px; }
+.call-field{ display:block; margin-bottom:13px; }
+.call-field-label{ display:block; font-size:.74em; font-weight:700; letter-spacing:.8px;
+                   text-transform:uppercase; color:var(--text-faint); margin-bottom:6px; }
+.call-input{
+  width:100%; padding:10px 12px; border:1.5px solid var(--border); border-radius:10px;
+  background:var(--surface-2); color:var(--text); font-family:inherit; font-size:.92em;
+}
+.call-input:focus{ outline:none; border-color:var(--accent); box-shadow:var(--ring); }
+.call-link-row{ display:flex; gap:7px; }
+.call-link-row .call-input{ flex:1; min-width:0; font-size:.8em; }
+.call-copy{ padding:10px 14px; font-size:.85em; white-space:nowrap; }
+.call-warn{
+  font-size:.79em; line-height:1.55; color:var(--text-dim); background:var(--surface-3);
+  border-radius:9px; padding:10px 12px; margin-bottom:14px;
+}
+
+@media (max-width:620px){
+  .call-panel, .call-panel.big{
+    right:8px; left:8px; bottom:8px; width:auto;
+    height:min(62vh, 440px);
+  }
+  .call-panel.min{ height:46px; }
+}
+
 /* toast */
 .toast{
   position:fixed; left:50%; bottom:26px; transform:translate(-50%,120%);
