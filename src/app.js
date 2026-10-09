@@ -382,6 +382,15 @@ function renderLesson(si, li){
     teach.append(rl, el('div', 'rule', lesson.rule));
     const eg = el('div', 'block-label eg-label', 'Example');
     teach.append(eg, el('div', 'eg', lesson.example));
+    /* geometry + trig lessons carry a diagram (section-gated: English
+       numbers its lessons 17-28 too, and must not inherit these) */
+    const fig = window.Figures && Figures.forLesson(sec.name, lesson.title);
+    if(fig){
+      const box = el('div', 'figure');
+      box.innerHTML = fig;                 /* our own markup, not lesson text */
+      box.setAttribute('aria-label', 'Diagram for ' + lesson.title);
+      teach.append(box);
+    }
   };
   if(S.mode === 'test'){
     const box = el('div', 'reveal-box');
@@ -645,6 +654,12 @@ $('#modeTest').onclick  = () => setMode('test');
 $('#avatar').onclick    = function(){ spinAvatar(this); };
 $('#modeLearn').classList.toggle('on', S.mode === 'learn');
 $('#modeTest').classList.toggle('on', S.mode === 'test');
+
+/* shared SVG marker definitions used by the lesson diagrams */
+if(window.Figures){
+  const d = document.getElementById('figDefs');
+  if(d) d.innerHTML = Figures.DEFS;
+}
 
 buildDecor();
 goHome();

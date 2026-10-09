@@ -395,6 +395,78 @@ body.in-call .call-dot{ animation:livePulse 1.8s ease-in-out infinite; }
 }
 
 /* ============================================================
+   LESSON DIAGRAMS (geometry + trigonometry)
+   Every colour comes from a theme token, so one drawing serves
+   light mode, dark mode and both subject accents.
+   ============================================================ */
+.figure{
+  margin:0 0 22px; padding:16px 14px 12px;
+  background:var(--surface-2); border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+}
+.figure svg{ display:block; width:100%; max-width:430px; height:auto; margin:0 auto; overflow:visible; }
+.fig-caption{
+  margin-top:10px; text-align:center; font-size:.8em; line-height:1.5;
+  color:var(--text-faint); font-style:italic;
+}
+
+/* shapes */
+.fig-shape     { fill:var(--tint); stroke:var(--accent); stroke-width:2.2; stroke-linejoin:round; }
+.fig-shape-alt { fill:var(--tint); stroke:var(--accent2); }
+.fig-circle    { fill:var(--tint); stroke:var(--accent); stroke-width:2.2; }
+
+/* plain construction lines */
+.fig-line   { stroke:var(--text-dim); stroke-width:1.6; fill:none; }
+.fig-dash   { stroke:var(--text-faint); stroke-width:1.4; fill:none; stroke-dasharray:5 4; }
+.fig-grid   { stroke:var(--border); stroke-width:1; }
+.fig-axis   { stroke:var(--text-dim); stroke-width:1.8; }
+.fig-radius { stroke:var(--accent2); stroke-width:2; }
+.fig-north  { stroke:var(--accent2); stroke-width:2.2; }
+.fig-arrow  { stroke:var(--accent2); stroke-width:2; fill:none; }
+.fig-arrow-head{ fill:var(--accent2); }
+
+/* angle marks */
+.fig-angle   { stroke:var(--gold); stroke-width:2.4; fill:none; }
+.fig-angle-q { stroke:var(--accent2); }
+.fig-right   { fill:none; stroke:var(--text-dim); stroke-width:1.8; }
+
+/* Pythagoras squares */
+.fig-sq-a{ fill:color-mix(in srgb, var(--gold) 26%, transparent); stroke:var(--gold); stroke-width:1.8; }
+.fig-sq-b{ fill:color-mix(in srgb, var(--accent) 20%, transparent); stroke:var(--accent); stroke-width:1.8; }
+.fig-sq-c{ fill:color-mix(in srgb, #1a9c5b 22%, transparent); stroke:#1a9c5b; stroke-width:1.8; }
+.fig-sq-label{ fill:var(--text); font-size:15px; font-weight:700; }
+
+/* 3D faces */
+.fig-face-front{ fill:var(--tint); stroke:var(--accent); stroke-width:2; }
+.fig-face-top  { fill:color-mix(in srgb, var(--accent) 26%, transparent); stroke:var(--accent); stroke-width:2; }
+.fig-face-side { fill:color-mix(in srgb, var(--accent) 14%, transparent); stroke:var(--accent); stroke-width:2; }
+
+/* colour-coded triangle sides for SOH CAH TOA */
+.fig-side-o{ stroke:#e8552f; stroke-width:4; stroke-linecap:round; }
+.fig-side-a{ stroke:#1a9c5b; stroke-width:4; stroke-linecap:round; }
+.fig-side-h{ stroke:var(--accent); stroke-width:4; stroke-linecap:round; }
+.fig-o{ fill:#e8552f; } .fig-a{ fill:#1a9c5b; } .fig-h{ fill:var(--accent); }
+body.dark .fig-o{ fill:#ff8a66; } body.dark .fig-side-o{ stroke:#ff8a66; }
+body.dark .fig-a{ fill:#5fd69a; } body.dark .fig-side-a{ stroke:#5fd69a; }
+body.dark .fig-sq-c{ stroke:#5fd69a; }
+
+/* points + text */
+.fig-dot  { fill:var(--text-dim); }
+.fig-dot-a{ fill:var(--accent); stroke:var(--surface); stroke-width:2; }
+.fig-dot-b{ fill:var(--accent2); stroke:var(--surface); stroke-width:2; }
+.fig-label{ fill:var(--text-dim); font-size:13px; font-weight:600; font-family:'Inter',system-ui,sans-serif; }
+.fig-dim  { fill:var(--accent2); font-size:14px; font-weight:700; font-family:'Inter',system-ui,sans-serif; }
+body.dark .fig-dim{ fill:var(--accent); }
+.fig-note { fill:var(--text-faint); font-size:12px; font-weight:500; font-family:'Inter',system-ui,sans-serif; }
+.fig-unknown{ fill:#e8552f; } body.dark .fig-unknown{ fill:#ff8a66; }
+
+@media (max-width:620px){
+  .figure{ padding:12px 8px 10px; }
+  .fig-label,.fig-note{ font-size:12.5px; }
+  .fig-dim{ font-size:14.5px; }
+}
+
+/* ============================================================
    TEACHING TOOLS (live during a call)
    ============================================================ */
 .teach-bar{

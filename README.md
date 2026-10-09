@@ -84,7 +84,9 @@ a reveal key is matched against real elements rather than injected into a select
 index.html        page shell only — markup, meta, font + asset links
 src/data.js       all lesson content (englishSections, mathSections)
 src/app.js        state, persistence, views, keyboard
+src/figures.js    SVG diagrams for the Geometry + Trigonometry lessons
 src/call.js       the "study together" video call panel (Jitsi embed)
+src/teach.js      presenter mode + laser / pen / spotlight / show-answer
 src/styles.css    design tokens, light/dark themes, layout, animation
 avatar.webp       header portrait, favicon and social preview image
 vercel.json       static hosting: clean URLs, security headers, cache policy
@@ -109,6 +111,27 @@ vercel --prod
 
 Pushing to `main` on GitHub also deploys automatically, because the repo is
 connected to a Vercel project.
+
+## Lesson diagrams
+
+All 12 **Geometry** and **Trigonometry** lessons carry a drawing, shown between
+the example and the practice questions — Pythagoras with the three squares on
+its sides, a hexagon split into triangles, the colour-coded SOH CAH TOA
+triangle, a compass bearing, a coordinate reflection, and so on. Each one uses
+the numbers from that lesson's own example, so the picture and the text agree.
+
+They are inline SVG built in `src/figures.js`, drawn with shared geometry
+helpers (`angleArc`, `rightAngle`, `sideLabel`) rather than hand-placed
+coordinates, and coloured entirely through CSS theme tokens — so one drawing
+serves light mode, dark mode and both subject accents, and scales from desktop
+down to a phone without a second asset.
+
+A figure is matched by **section name plus lesson number**, never the number
+alone: English numbers its lessons 17–28 as well, and would otherwise inherit
+geometry diagrams.
+
+To give another lesson a diagram, add a builder to `MAP` in `src/figures.js`
+and include its section in `DRAWN_SECTIONS`.
 
 ## Editing the lessons
 
